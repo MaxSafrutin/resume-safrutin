@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Max Safrutin</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #f5f5f7;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: #111;
+    }
+
+    body {
+      min-height: 100vh;
+    }
+
+    .app {
+      min-height: 100vh;
+      max-width: 480px;
+      margin: 0 auto;
+      background: #fff;
+      position: relative;
+      padding-bottom: 88px;
+    }
+
+    .screen-container {
+      padding: 20px 16px 24px;
+    }
+
+    .screen {
+      display: none;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    .card {
+      background: #f7f7f8;
+      border-radius: 20px;
+      padding: 18px;
+      margin-bottom: 14px;
+    }
+
+    .title {
+      font-size: 28px;
+      font-weight: 700;
+      margin: 0 0 10px;
+    }
+
+    .subtitle {
+      font-size: 15px;
+      color: #666;
+      margin: 0 0 20px;
+      line-height: 1.45;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 0;
+      width: 100%;
+      max-width: 480px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(14px);
+      border-top: 1px solid #e9e9ec;
+    }
+
+    .nav-btn {
+      border: none;
+      background: transparent;
+      border-radius: 14px;
+      padding: 10px 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #7a7a85;
+      cursor: pointer;
+    }
+
+    .nav-btn.active {
+      background: #111;
+      color: #fff;
+    }
+
+    .list {
+      padding-left: 18px;
+      margin: 0;
+    }
+
+    .list li {
+      margin-bottom: 8px;
+      line-height: 1.45;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <main class="screen-container">
+
+      <section id="screen-home" class="screen active">
+        <div class="card">
+          <h1 class="title">Максим Сафрутин</h1>
+          <p class="subtitle">
+            Корпоративные продажи, переговоры, развитие клиентов, системный подход к сделке.
+          </p>
+        </div>
+
+        <div class="card">
+          <strong>HR-версия за 30 секунд</strong>
+          <p>
+            Более 12 лет в продажах и управлении. Сильная сторона — заходить в неочевидные задачи,
+            быстро собирать структуру и доводить до понятного результата.
+          </p>
+        </div>
+      </section>
+
+      <section id="screen-experience" class="screen">
+        <div class="card">
+          <h2>Опыт</h2>
+          <p>Здесь можно разместить места работы, ключевые результаты и сильные стороны.</p>
+          <ul class="list">
+            <li>Продажи B2B и работа с ЛПР</li>
+            <li>Переговоры и сопровождение сложных сделок</li>
+            <li>CRM, 1С, документооборот, структура процессов</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="screen-reviews" class="screen">
+        <div class="card">
+          <h2>Отзывы</h2>
+          <p>Здесь можно сделать краткие карточки отзывов и кнопку “Читать полностью”.</p>
+        </div>
+      </section>
+
+      <section id="screen-contact" class="screen">
+        <div class="card">
+          <h2>Контакты</h2>
+          <p>Telegram, WhatsApp, MAX, ссылки и быстрые кнопки связи.</p>
+        </div>
+      </section>
+
+    </main>
+
+    <nav class="bottom-nav">
+      <button class="nav-btn active" data-screen="home">Главная</button>
+      <button class="nav-btn" data-screen="experience">Опыт</button>
+      <button class="nav-btn" data-screen="reviews">Отзывы</button>
+      <button class="nav-btn" data-screen="contact">Связь</button>
+    </nav>
+  </div>
+
+  <script>
+    const buttons = document.querySelectorAll('.nav-btn');
+    const screens = document.querySelectorAll('.screen');
+
+    function openScreen(screenName) {
+      screens.forEach(screen => {
+        screen.classList.remove('active');
+      });
+
+      buttons.forEach(button => {
+        button.classList.remove('active');
+      });
+
+      const targetScreen = document.getElementById(`screen-${screenName}`);
+      const targetButton = document.querySelector(`.nav-btn[data-screen="${screenName}"]`);
+
+      if (targetScreen) targetScreen.classList.add('active');
+      if (targetButton) targetButton.classList.add('active');
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    buttons.forEach(button => {
+      button.addEventListener('click', () => {
+        openScreen(button.dataset.screen);
+      });
+    });
+  </script>
+</body>
+</html>
