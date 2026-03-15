@@ -84,6 +84,7 @@
     <div id="root"></div>
     <script type="text/babel">
         const { useState, useEffect, useRef } = React;
+
         const ExperienceData = [
             {
                 id: 1,
@@ -380,6 +381,7 @@
                 ]
             }
         ];
+
         const Counter = ({ endValue, suffix = "" }) => {
             const [count, setCount] = useState(0);
             useEffect(() => {
@@ -399,6 +401,7 @@
             }, [endValue]);
             return <span>{count}{suffix}</span>;
         };
+
         const Modal = ({ isOpen, onClose, title, children }) => {
             if (!isOpen) return null;
             return (
@@ -426,11 +429,13 @@
                 </div>
             );
         };
+
         const ExperienceCard = ({ item, onOpenFull }) => {
             const [isOpen, setIsOpen] = useState(false);
             const [activeTab, setActiveTab] = useState('preview');
             const [isVisible, setIsVisible] = useState(false);
             const cardRef = useRef(null);
+
             useEffect(() => {
                 const node = cardRef.current;
                 if (!node) return;
@@ -448,6 +453,7 @@
                 observer.observe(node);
                 return () => observer.disconnect();
             }, []);
+
             return (
                 <div ref={cardRef} className={`relative pl-7 timeline-reveal ${isVisible ? 'visible' : ''}`}>
                     <div className="experience-timeline-line"></div>
@@ -478,6 +484,7 @@
                                     <i className="fa-solid fa-chevron-down text-[10px]"></i>
                                 </div>
                             </div>
+
                             {isOpen && (
                                 <div className="px-6 pb-6 flex flex-col">
                                     <div className="flex gap-2 mb-6 bg-gray-200/50 dark:bg-black/50 p-1.5 rounded-2xl">
@@ -499,6 +506,7 @@
                                             </button>
                                         ))}
                                     </div>
+
                                     <div className="flex-1">
                                         {activeTab === 'preview' && (
                                             <div className="space-y-4">
@@ -512,6 +520,7 @@
                                                 </div>
                                             </div>
                                         )}
+
                                         {activeTab === 'detailed' && (
                                             <div className="space-y-4">
                                                 <div className="p-4 bg-white dark:bg-black rounded-[1.5rem] border border-gray-100 dark:border-gray-800 apple-shadow experience-box-light">
@@ -557,6 +566,7 @@
                                                 </div>
                                             </div>
                                         )}
+
                                         {activeTab === 'recommendations' && (
                                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                                 {item.recommendations.map((rec) => (
@@ -597,6 +607,7 @@
                 </div>
             );
         };
+
         const AccordionItem = ({ title, score, description, bullets }) => {
             const [isOpen, setIsOpen] = useState(false);
             return (
@@ -633,6 +644,7 @@
                 </div>
             );
         };
+
         const TechCard = ({ title, subtitle, tools, icon }) => (
             <div className="bg-[#f5f5f7] dark:bg-[#1c1c1e] p-5 rounded-[2rem] border border-transparent dark:border-gray-800 apple-shadow flex flex-col h-full hover:scale-[1.02] transition-transform">
                 <div className="flex items-center gap-4 mb-4">
@@ -653,6 +665,7 @@
                 </div>
             </div>
         );
+
         const StarRating = ({ label, desc, rating }) => (
             <div className="flex flex-col sm:flex-row sm:items-center justify-between p-5 bg-[#f5f5f7] dark:bg-[#1c1c1e] rounded-[1.5rem] border border-transparent dark:border-gray-800 apple-shadow gap-4">
                 <div>
@@ -669,15 +682,41 @@
                 </div>
             </div>
         );
+
+        const PersonalAccordion = ({ title, icon, children, defaultOpen = false }) => {
+            const [isOpen, setIsOpen] = useState(defaultOpen);
+
+            return (
+                <div className="space-y-4">
+                    <div className="flex justify-between items-center cursor-pointer px-2" onClick={() => setIsOpen(!isOpen)}>
+                        <h3 className="text-xl font-bold tracking-tight flex items-center gap-3">
+                            <i className={`fa-solid ${icon} text-blue-600`}></i> {title}
+                        </h3>
+                        <div className={`w-8 h-8 rounded-full bg-white dark:bg-black flex items-center justify-center transition-transform duration-300 shrink-0 apple-shadow ${isOpen ? 'rotate-180' : ''}`}>
+                            <i className="fa-solid fa-chevron-down text-[10px]"></i>
+                        </div>
+                    </div>
+                    {isOpen && (
+                        <div className="animate-fade-up">
+                            {children}
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
         const App = () => {
             const [activeSection, setActiveSection] = useState('profile');
             const [darkMode, setDarkMode] = useState(true);
             const [isAboutOpen, setIsAboutOpen] = useState(false);
             const [fullModal, setFullModal] = useState({ open: false, title: '', content: '' });
+            const [personalModal, setPersonalModal] = useState({ open: false, title: '', content: null });
+
             const toggleDarkMode = () => {
                 setDarkMode((prev) => !prev);
                 document.documentElement.classList.toggle('dark');
             };
+
             return (
                 <div className="min-h-screen pb-28">
                     <nav className="fixed top-0 w-full nav-blur z-50 border-b border-gray-100 dark:border-gray-900">
@@ -692,6 +731,7 @@
                             </button>
                         </div>
                     </nav>
+
                     <main className="max-w-4xl mx-auto px-6 pt-20">
                         {activeSection === 'profile' && (
                             <div className="space-y-10 animate-fade-up">
@@ -726,6 +766,7 @@
                                         </button>
                                     </div>
                                 </header>
+
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                     <div className="bg-[#f5f5f7] dark:bg-[#1c1c1e] p-6 rounded-[1.5rem] text-center border border-transparent dark:border-gray-800">
                                         <div className="text-3xl font-bold mb-1"><Counter endValue={667} suffix="+" /></div>
@@ -740,6 +781,7 @@
                                         <div className="text-[10px] uppercase tracking-widest text-gray-400 font-bold">Млн ₽ прибыль</div>
                                     </div>
                                 </div>
+
                                 <section className="max-w-2xl mx-auto text-center space-y-6">
                                     <div className="text-lg md:text-xl leading-relaxed font-medium text-gray-800 dark:text-gray-200">
                                         <p>С 1993 года — в переговорах, с 2020 — в автомобильных. Работаю системно и гибко используя в том числе AI-инструменты для повышения конверсии продаж.</p>
@@ -753,6 +795,7 @@
                                 </section>
                             </div>
                         )}
+
                         {activeSection === 'experience' && (
                             <div className="space-y-6 animate-fade-up max-w-4xl mx-auto pb-10">
                                 <h2 className="text-2xl font-bold tracking-tight mb-6 text-center">Опыт работы</h2>
@@ -765,6 +808,7 @@
                                 ))}
                             </div>
                         )}
+
                         {activeSection === 'skills' && (
                             <div className="space-y-12 animate-fade-up max-w-4xl mx-auto pb-10">
                                 <div className="bg-gradient-to-br from-[#f5f5f7] to-white dark:from-[#1c1c1e] dark:to-[#121214] p-8 md:p-10 rounded-[2.5rem] border border-gray-100 dark:border-gray-800 apple-shadow text-center relative overflow-hidden">
@@ -785,6 +829,7 @@
                                         </p>
                                     </div>
                                 </div>
+
                                 <div className="space-y-6">
                                     <h3 className="text-xl font-bold tracking-tight px-2 flex items-center gap-3">
                                         <i className="fa-solid fa-chart-simple text-blue-600"></i> Ключевые показатели
@@ -812,6 +857,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div className="space-y-6">
                                     <h3 className="text-xl font-bold tracking-tight px-2 flex items-center gap-3">
                                         <i className="fa-solid fa-laptop-code text-blue-600"></i> Технический стек
@@ -829,6 +875,7 @@
                                         <TechCard title="Управление задачами" subtitle="контроль сроков" tools={["Notion", "Trello", "Todoist", "Obsidian"]} icon="fa-list-check" />
                                     </div>
                                 </div>
+
                                 <div className="space-y-6">
                                     <div className="px-2">
                                         <h3 className="text-xl font-bold tracking-tight mb-2 flex items-center gap-3">
@@ -857,6 +904,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div className="space-y-6">
                                     <h3 className="text-xl font-bold tracking-tight px-2 flex items-center gap-3">
                                         <i className="fa-regular fa-star text-blue-600"></i> Профессиональные качества
@@ -874,11 +922,9 @@
                                 </div>
                             </div>
                         )}
-                        {activeSection === 'personal' && (
-                            <div className="space-y-6 animate-fade-up max-w-3xl mx-auto">
-                                <h2 className="text-2xl font-bold tracking-tight mb-4 text-center">Личное и Увлечения</h2>
 
-                                {/* Девиз и любимая цитата — в стиле уже существующего тёмного блока */}
+                        {activeSection === 'personal' && (
+                            <div className="space-y-10 animate-fade-up max-w-4xl mx-auto pb-10">
                                 <div className="bg-[#1d1d1f] text-white p-8 rounded-[2rem]">
                                     <h3 className="text-xl font-bold mb-4">🧭 Девиз по жизни</h3>
                                     <p className="text-lg opacity-70 italic mb-6">«Завтра ты должен быть лучше, чем сегодня!»</p>
@@ -887,172 +933,231 @@
                                     <p className="text-sm opacity-70 mt-2">- Теодор Рузвельт</p>
                                 </div>
 
-                                {/* Образование — единый Apple-стильный блок */}
-                                <div className="bg-[#f5f5f7] dark:bg-[#1c1c1e] p-8 rounded-[2rem] border border-transparent dark:border-gray-800">
-                                    <h3 className="text-xl font-bold mb-6 flex items-center gap-3">
-                                        <i className="fa-solid fa-graduation-cap text-blue-600"></i> 📚 Образование
-                                    </h3>
-                                    <div className="space-y-8">
-                                        {/* Основное образование */}
-                                        <div>
-                                            <div className="flex items-center gap-3 text-blue-600 mb-4">
-                                                <i className="fa-solid fa-book text-xl"></i>
-                                                <span className="font-bold text-base">🧩 Основное образование</span>
-                                            </div>
-                                            <div className="pl-8 border-l border-gray-300 dark:border-gray-700 space-y-6">
-                                                <div>
-                                                    <div className="font-semibold">МОУ СОШ №38</div>
-                                                    <div className="text-sm text-gray-500 dark:text-gray-400">1998 г. – 2008 г.</div>
-                                                    <div className="text-sm mt-2">Среднее общее образование, 11 классов.</div>
+                                <PersonalAccordion title="📚 Образование" icon="fa-graduation-cap" defaultOpen={true}>
+                                    <div className="bg-[#f5f5f7] dark:bg-[#1c1c1e] p-8 rounded-[2rem] border border-transparent dark:border-gray-800">
+                                        <div className="space-y-8">
+                                            <div>
+                                                <div className="flex items-center gap-3 text-blue-600 mb-4">
+                                                    <i className="fa-solid fa-book text-xl"></i>
+                                                    <span className="font-bold text-base">🧩 Основное образование</span>
                                                 </div>
-                                                <div>
-                                                    <div className="font-semibold">Поволжская государственная социально-гуманитарная академия (ПГСГА)</div>
-                                                    <div className="text-sm text-gray-500 dark:text-gray-400">2008 г. – 2013 г.</div>
-                                                    <div className="text-sm mt-2">Естественно-географический факультет — специалист очной формы обучения.</div>
-                                                    <div className="text-sm mt-1">Специальность: география с дополнительной специальностью биология.</div>
+                                                <div className="pl-8 border-l border-gray-300 dark:border-gray-700 space-y-6">
+                                                    <div>
+                                                        <div className="font-semibold">МОУ СОШ №38</div>
+                                                        <div className="text-sm text-gray-500 dark:text-gray-400">1998 г. – 2008 г.</div>
+                                                        <div className="text-sm mt-2">Среднее общее образование, 11 классов.</div>
+                                                    </div>
+                                                    <div>
+                                                        <div className="font-semibold">Поволжская государственная социально-гуманитарная академия (ПГСГА)</div>
+                                                        <div className="text-sm text-gray-500 dark:text-gray-400">2008 г. – 2013 г.</div>
+                                                        <div className="text-sm mt-2">Естественно-географический факультет — специалист очной формы обучения.</div>
+                                                        <div className="text-sm mt-1">Специальность: география с дополнительной специальностью биология.</div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
 
-                                        {/* Дополнительное образование — список */}
-                                        <div>
-                                            <div className="flex items-center gap-3 text-blue-600 mb-4">
-                                                <i className="fa-solid fa-certificate text-xl"></i>
-                                                <span className="font-bold text-base">🧩 Доп. образование</span>
+                                            <div className="flex flex-wrap gap-3">
+                                                <button
+                                                    onClick={() => setPersonalModal({
+                                                        open: true,
+                                                        title: "🧩 Доп. образование",
+                                                        content: (
+                                                            <ul className="space-y-4 text-sm">
+                                                                <li className="flex items-start gap-3">
+                                                                    <i className="fa-solid fa-check text-blue-600 mt-1"></i>
+                                                                    <div>
+                                                                        <span className="font-medium">ФФАИСАСО — Фитнес-инструктор</span><br />
+                                                                        <span className="text-xs text-gray-500">01–02 / 2011</span>
+                                                                    </div>
+                                                                </li>
+                                                                <li className="flex items-start gap-3">
+                                                                    <i className="fa-solid fa-check text-blue-600 mt-1"></i>
+                                                                    <div>
+                                                                        <span className="font-medium">Водительское удостоверение категории B</span><br />
+                                                                        <span className="text-xs text-gray-500">с 2012 года</span>
+                                                                    </div>
+                                                                </li>
+                                                                <li className="flex items-start gap-3">
+                                                                    <i className="fa-solid fa-check text-blue-600 mt-1"></i>
+                                                                    <div>
+                                                                        <span className="font-medium">Санкт-Петербургская школа телевидения — Курс ведущего мероприятий</span><br />
+                                                                        <span className="text-xs text-gray-500">02–04 / 2014</span>
+                                                                    </div>
+                                                                </li>
+                                                                <li className="flex items-start gap-3">
+                                                                    <i className="fa-solid fa-check text-blue-600 mt-1"></i>
+                                                                    <div>
+                                                                        <span className="font-medium">Насретдинов Р.К., ИП — Управление бизнес-аккаунтами</span><br />
+                                                                        <span className="text-xs text-gray-500">12 / 2021 – 03 / 2022</span>
+                                                                    </div>
+                                                                </li>
+                                                                <li className="flex items-start gap-3">
+                                                                    <i className="fa-solid fa-check text-blue-600 mt-1"></i>
+                                                                    <div>
+                                                                        <span className="font-medium">Бойлерная, ООО — Инструменты продаж</span><br />
+                                                                        <span className="text-xs text-gray-500">03 – 05 / 2022</span>
+                                                                    </div>
+                                                                </li>
+                                                                <li className="flex items-start gap-3">
+                                                                    <i className="fa-solid fa-check text-blue-600 mt-1"></i>
+                                                                    <div>
+                                                                        <span className="font-medium">АВТОВАЗ, АО — Сертификация по стандартам МОП Lada</span><br />
+                                                                        <span className="text-xs text-gray-500">07 / 2023 – 06 / 2024</span>
+                                                                    </div>
+                                                                </li>
+                                                                <li className="flex items-start gap-3">
+                                                                    <i className="fa-solid fa-check text-blue-600 mt-1"></i>
+                                                                    <div>
+                                                                        <span className="font-medium">АВТОВАЗ, АО — Сертификация по стандартам КМП Lada</span><br />
+                                                                        <span className="text-xs text-gray-500">07 / 2024</span>
+                                                                    </div>
+                                                                </li>
+                                                            </ul>
+                                                        )
+                                                    })}
+                                                    className="bg-white dark:bg-black px-4 py-2 rounded-2xl text-xs font-medium border border-gray-100 dark:border-gray-900 apple-shadow text-blue-600"
+                                                >
+                                                    Открыть доп. образование
+                                                </button>
                                             </div>
-                                            <ul className="space-y-4 pl-8 border-l border-gray-300 dark:border-gray-700 text-sm">
-                                                <li className="flex items-start gap-3">
-                                                    <i className="fa-solid fa-check text-blue-600 mt-1"></i>
-                                                    <div>
-                                                        <span className="font-medium">ФФАИСАСО — Фитнес-инструктор</span><br />
-                                                        <span className="text-xs text-gray-500">01–02 / 2011</span>
-                                                    </div>
-                                                </li>
-                                                <li className="flex items-start gap-3">
-                                                    <i className="fa-solid fa-check text-blue-600 mt-1"></i>
-                                                    <div>
-                                                        <span className="font-medium">Водительское удостоверение категории B</span><br />
-                                                        <span className="text-xs text-gray-500">с 2012 года</span>
-                                                    </div>
-                                                </li>
-                                                <li className="flex items-start gap-3">
-                                                    <i className="fa-solid fa-check text-blue-600 mt-1"></i>
-                                                    <div>
-                                                        <span className="font-medium">Санкт-Петербургская школа телевидения — Курс ведущего мероприятий</span><br />
-                                                        <span className="text-xs text-gray-500">02–04 / 2014</span>
-                                                    </div>
-                                                </li>
-                                                <li className="flex items-start gap-3">
-                                                    <i className="fa-solid fa-check text-blue-600 mt-1"></i>
-                                                    <div>
-                                                        <span className="font-medium">Насретдинов Р.К., ИП — Управление бизнес-аккаунтами</span><br />
-                                                        <span className="text-xs text-gray-500">12 / 2021 – 03 / 2022</span>
-                                                    </div>
-                                                </li>
-                                                <li className="flex items-start gap-3">
-                                                    <i className="fa-solid fa-check text-blue-600 mt-1"></i>
-                                                    <div>
-                                                        <span className="font-medium">Бойлерная, ООО — Инструменты продаж</span><br />
-                                                        <span className="text-xs text-gray-500">03 – 05 / 2022</span>
-                                                    </div>
-                                                </li>
-                                                <li className="flex items-start gap-3">
-                                                    <i className="fa-solid fa-check text-blue-600 mt-1"></i>
-                                                    <div>
-                                                        <span className="font-medium">АВТОВАЗ, АО — Сертификация по стандартам МОП Lada</span><br />
-                                                        <span className="text-xs text-gray-500">07 / 2023 – 06 / 2024</span>
-                                                    </div>
-                                                </li>
-                                                <li className="flex items-start gap-3">
-                                                    <i className="fa-solid fa-check text-blue-600 mt-1"></i>
-                                                    <div>
-                                                        <span className="font-medium">АВТОВАЗ, АО — Сертификация по стандартам КМП Lada</span><br />
-                                                        <span className="text-xs text-gray-500">07 / 2024</span>
-                                                    </div>
-                                                </li>
-                                            </ul>
                                         </div>
                                     </div>
-                                </div>
+                                </PersonalAccordion>
 
-                                {/* Языки — в стиле StarRating (как в навыках) */}
-                                <div className="space-y-6">
-                                    <h3 className="text-xl font-bold tracking-tight px-2 flex items-center gap-3">
-                                        <i className="fa-solid fa-language text-blue-600"></i> 🌐 Языки
-                                    </h3>
+                                <PersonalAccordion title="🌐 Языки" icon="fa-language">
                                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                         <StarRating label="Русский" desc="родной" rating={4} />
                                         <StarRating label="Английский" desc="уровень 3 класса" rating={2} />
                                         <StarRating label="Французский" desc="просто нравится" rating={0} />
                                     </div>
-                                </div>
+                                </PersonalAccordion>
 
-                                {/* Личные качества — тоже StarRating */}
-                                <div className="space-y-6">
-                                    <h3 className="text-xl font-bold tracking-tight px-2 flex items-center gap-3">
-                                        <i className="fa-solid fa-heart text-blue-600"></i> 🤝 Личные качества
-                                    </h3>
+                                <PersonalAccordion title="🤝 Личные качества" icon="fa-heart">
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                         <StarRating label="Эмоциональная устойчивость и уравновешенность" desc="" rating={2} />
                                         <StarRating label="Харизматичный стиль общения с клиентами" desc="" rating={4} />
                                         <StarRating label="Высокая личная дисциплина и самоорганизация" desc="" rating={3} />
                                         <StarRating label="Доброжелательность и умение выстраивать доверие" desc="" rating={4} />
                                     </div>
-                                </div>
+                                </PersonalAccordion>
 
-                                {/* Доп. информация (самое главное) */}
-                                <div className="bg-[#f5f5f7] dark:bg-[#1c1c1e] p-8 rounded-[2rem] border border-transparent dark:border-gray-800">
-                                    <h3 className="text-xl font-bold mb-6">📎 Доп. информация</h3>
-                                    <div className="font-bold mb-4 text-blue-600">⭐ Самое главное</div>
-                                    <div className="space-y-4 text-sm">
-                                        <div className="flex gap-3"><span className="text-blue-600 w-5">▶</span><div>Родился <span className="font-semibold">1990</span></div></div>
-                                        <div className="flex gap-3"><span className="text-blue-600 w-5">💍</span><div>Женился <span className="font-semibold">09 / 2013</span></div></div>
-                                        <div className="flex gap-3"><span className="text-blue-600 w-5">👶</span><div>Родился 1-ый сын <span className="font-semibold">2018</span></div></div>
-                                        <div className="flex gap-3"><span className="text-blue-600 w-5">👶</span><div>Родился 2-ой сын <span className="font-semibold">2021</span></div></div>
-                                        <div className="flex gap-3"><span className="text-blue-600 w-5">👶</span><div>Родилась дочь <span className="font-semibold">2025</span></div></div>
-                                        <div className="flex gap-3"><span className="text-blue-600 w-5">🏡</span><div>В планах — купить / построить дом.</div></div>
+                                <PersonalAccordion title="📎 Доп. информация" icon="fa-paperclip">
+                                    <div className="bg-[#f5f5f7] dark:bg-[#1c1c1e] p-8 rounded-[2rem] border border-transparent dark:border-gray-800">
+                                        <div className="font-bold mb-4 text-blue-600">⭐ Самое главное</div>
+                                        <div className="space-y-4 text-sm">
+                                            <div className="flex gap-3"><span className="text-blue-600 w-5">▶</span><div>Родился <span className="font-semibold">1990</span></div></div>
+                                            <div className="flex gap-3"><span className="text-blue-600 w-5">💍</span><div>Женился <span className="font-semibold">09 / 2013</span></div></div>
+                                            <div className="flex gap-3"><span className="text-blue-600 w-5">👶</span><div>Родился 1-ый сын <span className="font-semibold">2018</span></div></div>
+                                            <div className="flex gap-3"><span className="text-blue-600 w-5">👶</span><div>Родился 2-ой сын <span className="font-semibold">2021</span></div></div>
+                                            <div className="flex gap-3"><span className="text-blue-600 w-5">👶</span><div>Родилась дочь <span className="font-semibold">2025</span></div></div>
+                                            <div className="flex gap-3"><span className="text-blue-600 w-5">🏡</span><div>В планах — купить / построить дом.</div></div>
+                                        </div>
+                                        <div className="mt-6">
+                                            <button
+                                                onClick={() => setPersonalModal({
+                                                    open: true,
+                                                    title: "⭐ Самое главное",
+                                                    content: (
+                                                        <div className="space-y-4 text-sm">
+                                                            <div className="flex gap-3"><span className="text-blue-600 w-5">▶</span><div>Родился <span className="font-semibold">1990</span></div></div>
+                                                            <div className="flex gap-3"><span className="text-blue-600 w-5">💍</span><div>Женился <span className="font-semibold">09 / 2013</span></div></div>
+                                                            <div className="flex gap-3"><span className="text-blue-600 w-5">👶</span><div>Родился 1-ый сын <span className="font-semibold">2018</span></div></div>
+                                                            <div className="flex gap-3"><span className="text-blue-600 w-5">👶</span><div>Родился 2-ой сын <span className="font-semibold">2021</span></div></div>
+                                                            <div className="flex gap-3"><span className="text-blue-600 w-5">👶</span><div>Родилась дочь <span className="font-semibold">2025</span></div></div>
+                                                            <div className="flex gap-3"><span className="text-blue-600 w-5">🏡</span><div>В планах — купить / построить дом.</div></div>
+                                                        </div>
+                                                    )
+                                                })}
+                                                className="bg-white dark:bg-black px-4 py-2 rounded-2xl text-xs font-medium border border-gray-100 dark:border-gray-900 apple-shadow text-blue-600"
+                                            >
+                                                Открыть в окне
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
+                                </PersonalAccordion>
 
-                                {/* Путешествия */}
-                                <div className="bg-[#f5f5f7] dark:bg-[#1c1c1e] p-8 rounded-[2rem] border border-transparent dark:border-gray-800">
-                                    <h3 className="text-xl font-bold mb-6">🌍 Мои путешествия</h3>
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-sm">
-                                        <div className="flex gap-3"><i className="fa-solid fa-city text-blue-600 mt-1"></i><div><span className="font-semibold">Москва</span><br />пол года проживания</div></div>
-                                        <div className="flex gap-3"><i className="fa-solid fa-plane text-blue-600 mt-1"></i><div><span className="font-semibold">Прага</span><br />серебро на чемпионате Европы</div></div>
-                                        <div className="flex gap-3"><i className="fa-solid fa-plane text-blue-600 mt-1"></i><div><span className="font-semibold">Шарджа</span><br />отпуск в ОАЭ</div></div>
-                                        <div className="flex gap-3"><i className="fa-solid fa-plane text-blue-600 mt-1"></i><div><span className="font-semibold">Париж</span><br />с командой в Диснейленде</div></div>
+                                <PersonalAccordion title="🌍 Мои путешествия" icon="fa-earth-americas">
+                                    <div className="bg-[#f5f5f7] dark:bg-[#1c1c1e] p-8 rounded-[2rem] border border-transparent dark:border-gray-800">
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-sm">
+                                            <div className="flex gap-3"><i className="fa-solid fa-city text-blue-600 mt-1"></i><div><span className="font-semibold">Москва</span><br />пол года проживания</div></div>
+                                            <div className="flex gap-3"><i className="fa-solid fa-plane text-blue-600 mt-1"></i><div><span className="font-semibold">Прага</span><br />серебро на чемпионате Европы</div></div>
+                                            <div className="flex gap-3"><i className="fa-solid fa-plane text-blue-600 mt-1"></i><div><span className="font-semibold">Шарджа</span><br />отпуск в ОАЭ</div></div>
+                                            <div className="flex gap-3"><i className="fa-solid fa-plane text-blue-600 mt-1"></i><div><span className="font-semibold">Париж</span><br />с командой в Диснейленде</div></div>
+                                        </div>
+                                        <div className="mt-6">
+                                            <button
+                                                onClick={() => setPersonalModal({
+                                                    open: true,
+                                                    title: "🌍 Мои путешествия",
+                                                    content: (
+                                                        <div className="grid grid-cols-1 gap-5 text-sm">
+                                                            <div className="flex gap-3"><i className="fa-solid fa-city text-blue-600 mt-1"></i><div><span className="font-semibold">Москва</span><br />пол года проживания</div></div>
+                                                            <div className="flex gap-3"><i className="fa-solid fa-plane text-blue-600 mt-1"></i><div><span className="font-semibold">Прага</span><br />серебро на чемпионате Европы</div></div>
+                                                            <div className="flex gap-3"><i className="fa-solid fa-plane text-blue-600 mt-1"></i><div><span className="font-semibold">Шарджа</span><br />отпуск в ОАЭ</div></div>
+                                                            <div className="flex gap-3"><i className="fa-solid fa-plane text-blue-600 mt-1"></i><div><span className="font-semibold">Париж</span><br />с командой в Диснейленде</div></div>
+                                                        </div>
+                                                    )
+                                                })}
+                                                className="bg-white dark:bg-black px-4 py-2 rounded-2xl text-xs font-medium border border-gray-100 dark:border-gray-900 apple-shadow text-blue-600"
+                                            >
+                                                Открыть в окне
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
+                                </PersonalAccordion>
 
-                                {/* Увлечения — в стиле тегов (как в TechCard) */}
-                                <div className="bg-[#f5f5f7] dark:bg-[#1c1c1e] p-8 rounded-[2rem] border border-transparent dark:border-gray-800">
-                                    <h3 className="text-xl font-bold mb-6">🎨 Увлечения</h3>
-                                    <div className="flex flex-wrap gap-2">
-                                        {["IT технологии","Умный дом","Контент к саморазвитию","Графический дизайн","Ведение мероприятий","Уличные танцы","Джазовая музыка"].map((item,i) => (
-                                            <span key={i} className="bg-white dark:bg-black px-4 py-2 rounded-2xl text-xs font-medium border border-gray-100 dark:border-gray-900 apple-shadow">
-                                                {item}
-                                            </span>
-                                        ))}
+                                <PersonalAccordion title="🎨 Увлечения" icon="fa-palette">
+                                    <div className="bg-[#f5f5f7] dark:bg-[#1c1c1e] p-8 rounded-[2rem] border border-transparent dark:border-gray-800">
+                                        <div className="flex flex-wrap gap-2">
+                                            {["IT технологии","Умный дом","Контент к саморазвитию","Графический дизайн","Ведение мероприятий","Уличные танцы","Джазовая музыка"].map((item,i) => (
+                                                <span key={i} className="bg-white dark:bg-black px-4 py-2 rounded-2xl text-xs font-medium border border-gray-100 dark:border-gray-900 apple-shadow">
+                                                    {item}
+                                                </span>
+                                            ))}
+                                        </div>
                                     </div>
-                                </div>
+                                </PersonalAccordion>
 
-                                {/* Личные достижения */}
-                                <div className="bg-[#f5f5f7] dark:bg-[#1c1c1e] p-8 rounded-[2rem] border border-transparent dark:border-gray-800">
-                                    <h3 className="text-xl font-bold mb-6">🏆 Личные достижения</h3>
-                                    <ul className="space-y-4 text-sm">
-                                        <li className="flex items-start gap-3"><i className="fa-solid fa-trophy text-blue-600 mt-1"></i><span>Продано более 667+ автомобилей за всё время</span></li>
-                                        <li className="flex items-start gap-3"><i className="fa-solid fa-trophy text-blue-600 mt-1"></i><span>587+ довольных заказчиков проведёнными и организованными мероприятиями</span></li>
-                                        <li className="flex items-start gap-3"><i className="fa-solid fa-trophy text-blue-600 mt-1"></i><span>Лауреат вузовских и областных студенческих весен в номинации хореография (2009–2013)</span></li>
-                                        <li className="flex items-start gap-3"><i className="fa-solid fa-trophy text-blue-600 mt-1"></i><span>Победитель олимпиады по психологии среди факультетов ВУЗа</span></li>
-                                        <li className="flex items-start gap-3"><i className="fa-solid fa-trophy text-blue-600 mt-1"></i><span>Участник сборной СГАУ, команды «Just Black», хип-хоп аэробика — серебряные призёры Европы</span></li>
-                                        <li className="flex items-start gap-3"><i className="fa-solid fa-trophy text-blue-600 mt-1"></i><span>Участник сборной ПГСГА, команды «Sky», хип-хоп аэробика — серебряные призёры областных соревнований, финалисты ПФО</span></li>
-                                        <li className="flex items-start gap-3"><i className="fa-solid fa-trophy text-blue-600 mt-1"></i><span>Судья областных соревнований по фитнес-аэробике (хип-хоп аэробика)</span></li>
-                                        <li className="flex items-start gap-3"><i className="fa-solid fa-trophy text-blue-600 mt-1"></i><span>Организация, проведение и участие в мероприятиях школьного, районного, городского и развлекательного уровня</span></li>
-                                    </ul>
-                                </div>
+                                <PersonalAccordion title="🏆 Личные достижения" icon="fa-trophy">
+                                    <div className="bg-[#f5f5f7] dark:bg-[#1c1c1e] p-8 rounded-[2rem] border border-transparent dark:border-gray-800">
+                                        <ul className="space-y-4 text-sm">
+                                            <li className="flex items-start gap-3"><i className="fa-solid fa-trophy text-blue-600 mt-1"></i><span>Продано более 667+ автомобилей за всё время</span></li>
+                                            <li className="flex items-start gap-3"><i className="fa-solid fa-trophy text-blue-600 mt-1"></i><span>587+ довольных заказчиков проведёнными и организованными мероприятиями</span></li>
+                                            <li className="flex items-start gap-3"><i className="fa-solid fa-trophy text-blue-600 mt-1"></i><span>Лауреат вузовских и областных студенческих весен в номинации хореография (2009–2013)</span></li>
+                                            <li className="flex items-start gap-3"><i className="fa-solid fa-trophy text-blue-600 mt-1"></i><span>Победитель олимпиады по психологии среди факультетов ВУЗа</span></li>
+                                            <li className="flex items-start gap-3"><i className="fa-solid fa-trophy text-blue-600 mt-1"></i><span>Участник сборной СГАУ, команды «Just Black», хип-хоп аэробика — серебряные призёры Европы</span></li>
+                                            <li className="flex items-start gap-3"><i className="fa-solid fa-trophy text-blue-600 mt-1"></i><span>Участник сборной ПГСГА, команды «Sky», хип-хоп аэробика — серебряные призёры областных соревнований, финалисты ПФО</span></li>
+                                            <li className="flex items-start gap-3"><i className="fa-solid fa-trophy text-blue-600 mt-1"></i><span>Судья областных соревнований по фитнес-аэробике (хип-хоп аэробика)</span></li>
+                                            <li className="flex items-start gap-3"><i className="fa-solid fa-trophy text-blue-600 mt-1"></i><span>Организация, проведение и участие в мероприятиях школьного, районного, городского и развлекательного уровня</span></li>
+                                        </ul>
+                                        <div className="mt-6">
+                                            <button
+                                                onClick={() => setPersonalModal({
+                                                    open: true,
+                                                    title: "🏆 Личные достижения",
+                                                    content: (
+                                                        <ul className="space-y-4 text-sm">
+                                                            <li className="flex items-start gap-3"><i className="fa-solid fa-trophy text-blue-600 mt-1"></i><span>Продано более 667+ автомобилей за всё время</span></li>
+                                                            <li className="flex items-start gap-3"><i className="fa-solid fa-trophy text-blue-600 mt-1"></i><span>587+ довольных заказчиков проведёнными и организованными мероприятиями</span></li>
+                                                            <li className="flex items-start gap-3"><i className="fa-solid fa-trophy text-blue-600 mt-1"></i><span>Лауреат вузовских и областных студенческих весен в номинации хореография (2009–2013)</span></li>
+                                                            <li className="flex items-start gap-3"><i className="fa-solid fa-trophy text-blue-600 mt-1"></i><span>Победитель олимпиады по психологии среди факультетов ВУЗа</span></li>
+                                                            <li className="flex items-start gap-3"><i className="fa-solid fa-trophy text-blue-600 mt-1"></i><span>Участник сборной СГАУ, команды «Just Black», хип-хоп аэробика — серебряные призёры Европы</span></li>
+                                                            <li className="flex items-start gap-3"><i className="fa-solid fa-trophy text-blue-600 mt-1"></i><span>Участник сборной ПГСГА, команды «Sky», хип-хоп аэробика — серебряные призёры областных соревнований, финалисты ПФО</span></li>
+                                                            <li className="flex items-start gap-3"><i className="fa-solid fa-trophy text-blue-600 mt-1"></i><span>Судья областных соревнований по фитнес-аэробике (хип-хоп аэробика)</span></li>
+                                                            <li className="flex items-start gap-3"><i className="fa-solid fa-trophy text-blue-600 mt-1"></i><span>Организация, проведение и участие в мероприятиях школьного, районного, городского и развлекательного уровня</span></li>
+                                                        </ul>
+                                                    )
+                                                })}
+                                                className="bg-white dark:bg-black px-4 py-2 rounded-2xl text-xs font-medium border border-gray-100 dark:border-gray-900 apple-shadow text-blue-600"
+                                            >
+                                                Открыть в окне
+                                            </button>
+                                        </div>
+                                    </div>
+                                </PersonalAccordion>
                             </div>
                         )}
+
                         {activeSection === 'contacts' && (
                             <div className="text-center py-6 animate-fade-up">
                                 <h2 className="text-3xl font-extrabold tracking-tight mb-2">Готовы к новому опыту?</h2>
@@ -1090,6 +1195,7 @@
                             </div>
                         )}
                     </main>
+
                     <nav className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[95%] max-w-lg nav-blur rounded-full apple-shadow border border-gray-200 dark:border-gray-800 z-50">
                         <div className="flex justify-around items-center h-16 px-2">
                             {[
@@ -1110,6 +1216,7 @@
                             ))}
                         </div>
                     </nav>
+
                     <Modal isOpen={isAboutOpen} onClose={() => setIsAboutOpen(false)} title="О специалисте">
                         <div className="space-y-4 text-sm leading-relaxed text-gray-800 dark:text-gray-200">
                             <p>Более 12 лет в управлении продажами. Решения принимаю на основе аналитики и цифр. Архитектуру процессов веду к прогнозируемым и масштабируемым результатам. Увеличиваю прибыль компании через доверие клиента и решение его задачи, то есть конвертирую запрос в сделку.</p>
@@ -1146,6 +1253,7 @@
                             Подробнее про навыки
                         </button>
                     </Modal>
+
                     <Modal
                         isOpen={fullModal.open}
                         onClose={() => setFullModal({ ...fullModal, open: false })}
@@ -1153,9 +1261,18 @@
                     >
                         <div className="whitespace-pre-wrap">{fullModal.content}</div>
                     </Modal>
+
+                    <Modal
+                        isOpen={personalModal.open}
+                        onClose={() => setPersonalModal({ open: false, title: '', content: null })}
+                        title={personalModal.title}
+                    >
+                        <div>{personalModal.content}</div>
+                    </Modal>
                 </div>
             );
         };
+
         const root = ReactDOM.createRoot(document.getElementById('root'));
         root.render(<App />);
     </script>
