@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Максим Сафрутин — Resume / Digital Dossier</title>
+
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 0;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      background: #f3f4f6;
+      color: #1d1d1f;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "SF Pro Display",
+        "SF Pro Text",
+        "Helvetica Neue",
+        Helvetica,
+        Arial,
+        sans-serif;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    .sheet {
+      width: 210mm;
+      height: 297mm;
+      margin: 0 auto;
+      background: #ffffff;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(15, 23, 42, 0.10);
+      border-radius: 0;
+    }
+
+    .sheet + .sheet {
+      page-break-before: always;
+      break-before: page;
+    }
+
+    .sheet-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      padding: 11mm 11mm 18mm 11mm;
+      overflow: hidden;
+    }
+
+    .sheet.page-1 .sheet-inner {
+      padding-bottom: 22mm;
+    }
+
+    .page-break {
+      page-break-after: always;
+      break-after: page;
+    }
+
+    .topline {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 14px;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 102px 1fr;
+      gap: 14px;
+      align-items: center;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .avatar {
+      width: 102px;
+      height: 102px;
+      border-radius: 26px;
+      object-fit: cover;
+      border: 1px solid #e5e7eb;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
+      background: #f8fafc;
+    }
+
+    .qr-wrap {
+      width: 96px;
+      flex: 0 0 96px;
+      text-align: right;
+    }
+
+    .qr {
+      width: 84px;
+      height: 84px;
+      object-fit: contain;
+      border-radius: 16px;
+      border: 1px solid #e5e7eb;
+      background: #fff;
+      padding: 6px;
+    }
+
+    .qr-label {
+      margin-top: 5px;
+      font-size: 9.5px;
+      line-height: 1.2;
+      color: #6b7280;
+      letter-spacing: 0.01em;
+    }
+
+    .name {
+      margin: 0 0 3px 0;
+      font-size: 29px;
+      line-height: 1.02;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: #111827;
+    }
+
+    .eng {
+      margin: 0 0 7px 0;
+      font-size: 11.5px;
+      font-weight: 500;
+      color: #6b7280;
+      letter-spacing: 0.02em;
+    }
+
+    .role {
+      margin: 0 0 8px 0;
+      font-size: 14px;
+      line-height: 1.3;
+      color: #1f2937;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    .contacts {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-bottom: 7px;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 26px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: #f8fafc;
+      border: 1px solid #e5e7eb;
+      font-size: 10.5px;
+      line-height: 1;
+      color: #334155;
+      white-space: nowrap;
+    }
+
+    .summary {
+      margin-top: 7px;
+      font-size: 12px;
+      line-height: 1.45;
+      color: #374151;
+      max-width: 100%;
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, #d1d5db 0%, #e5e7eb 35%, #f3f4f6 100%);
+      margin: 12px 0 10px 0;
+    }
+
+    .grid-12 {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 11px;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+
+    .card {
+      background: #fbfbfc;
+      border: 1px solid #e5e7eb;
+      border-radius: 18px;
+      padding: 11px;
+      overflow: hidden;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+
+    .soft {
+      background: linear-gradient(180deg, #fcfcfd 0%, #f8fafc 100%);
+    }
+
+    .section-title {
+      margin: 0 0 8px 0;
+      font-size: 12.5px;
+      line-height: 1.2;
+      font-weight: 700;
+      color: #111827;
+      letter-spacing: -0.01em;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 9px;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+
+    .metric {
+      border-radius: 16px;
+      padding: 10px 10px 8px 10px;
+      background: #ffffff;
+      border: 1px solid #eceff3;
+      min-height: 74px;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+
+    .metric-value {
+      margin: 0 0 4px 0;
+      font-size: 22px;
+      line-height: 1;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      color: #111827;
+    }
+
+    .metric-label {
+      font-size: 10.5px;
+      line-height: 1.3;
+      color: #6b7280;
+    }
+
+    .metric-note {
+      margin-top: 4px;
+      font-size: 9.5px;
+      color: #94a3b8;
+      line-height: 1.2;
+    }
+
+    .col-12 { grid-column: span 12; }
+    .col-8 { grid-column: span 8; }
+    .col-7 { grid-column: span 7; }
+    .col-6 { grid-column: span 6; }
+    .col-5 { grid-column: span 5; }
+    .col-4 { grid-column: span 4; }
+    .col-3 { grid-column: span 3; }
+
+    .exp-item {
+      padding: 8px 0;
+      border-bottom: 1px solid #edf0f3;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+
+    .exp-item:first-child {
+      padding-top: 0;
+    }
+
+    .exp-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .exp-head {
+      display: grid;
+      grid-template-columns: 108px 1fr;
+      gap: 10px;
+      margin-bottom: 5px;
+    }
+
+    .exp-date {
+      font-size: 10.5px;
+      line-height: 1.3;
+      font-weight: 600;
+      color: #6b7280;
+    }
+
+    .exp-company {
+      font-size: 13px;
+      line-height: 1.24;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 1px;
+      letter-spacing: -0.01em;
+    }
+
+    .exp-role {
+      font-size: 11.2px;
+      line-height: 1.3;
+      color: #374151;
+      font-weight: 600;
+      margin-bottom: 3px;
+    }
+
+    .exp-text {
+      font-size: 11.2px;
+      line-height: 1.42;
+      color: #4b5563;
+    }
+
+    .mini-result {
+      margin-top: 5px;
+      font-size: 10.7px;
+      line-height: 1.36;
+      color: #111827;
+      font-weight: 600;
+    }
+
+    .bullet-list {
+      margin: 0;
+      padding-left: 16px;
+    }
+
+    .bullet-list li {
+      margin-bottom: 4px;
+      font-size: 10.9px;
+      line-height: 1.4;
+      color: #4b5563;
+    }
+
+    .bullet-list li:last-child {
+      margin-bottom: 0;
+    }
+
+    .skill-list,
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+
+    .tag {
+      padding: 6px 9px;
+      border-radius: 999px;
+      background: #ffffff;
+      border: 1px solid #e7eaee;
+      font-size: 10px;
+      line-height: 1.05;
+      color: #374151;
+      font-weight: 500;
+    }
+
+    .two-col-text {
+      columns: 2;
+      column-gap: 18px;
+    }
+
+    .two-col-text p,
+    .two-col-text ul {
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+
+    .note {
+      font-size: 10px;
+      line-height: 1.4;
+      color: #6b7280;
+    }
+
+    .footer {
+      position: absolute;
+      left: 11mm;
+      right: 11mm;
+      bottom: 5mm;
+      height: 8mm;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      font-size: 9.5px;
+      color: #94a3b8;
+      border-top: 1px solid #eef2f7;
+      padding-top: 2mm;
+      background: #ffffff;
+    }
+
+    .footer b {
+      color: #6b7280;
+      font-weight: 600;
+    }
+
+    .small-kpi {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 9px;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+
+    .small-kpi .metric {
+      min-height: 68px;
+      padding: 9px 10px;
+    }
+
+    .small-kpi .metric-value {
+      font-size: 19px;
+    }
+
+    .refs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+
+    .ref-box {
+      background: #ffffff;
+      border: 1px solid #eceff3;
+      border-radius: 14px;
+      padding: 9px 10px;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+
+    .ref-name {
+      font-size: 11px;
+      line-height: 1.3;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 2px;
+    }
+
+    .ref-role {
+      font-size: 10px;
+      line-height: 1.3;
+      color: #6b7280;
+      margin-bottom: 3px;
+    }
+
+    .ref-text {
+      font-size: 10.2px;
+      line-height: 1.34;
+      color: #374151;
+    }
+
+    .site-link {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #111827;
+      color: #ffffff;
+      font-size: 10px;
+      line-height: 1;
+      font-weight: 600;
+      text-decoration: none;
+      letter-spacing: 0.01em;
+    }
+
+    .tight p {
+      margin: 0 0 6px 0;
+      font-size: 10.8px;
+      line-height: 1.38;
+      color: #4b5563;
+    }
+
+    .tight p:last-child {
+      margin-bottom: 0;
+    }
+
+    .label {
+      color: #111827;
+      font-weight: 600;
+    }
+
+    @media print {
+      html,
+      body {
+        width: 210mm;
+        height: auto;
+        background: #ffffff;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      .sheet {
+        width: 210mm;
+        height: 297mm;
+        margin: 0;
+        box-shadow: none;
+        border-radius: 0;
+        overflow: hidden;
+      }
+
+      .sheet-inner {
+        padding: 11mm 11mm 18mm 11mm;
+      }
+
+      .sheet.page-1 .sheet-inner {
+        padding-bottom: 22mm;
+      }
+
+      .page-break {
+        page-break-after: always;
+        break-after: page;
+      }
+    }
+
+    @media screen {
+      body {
+        padding: 0;
+      }
+
+      .sheet {
+        margin-bottom: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PAGE 1 -->
+  <section class="sheet page-1 page-break">
+    <div class="sheet-inner">
+      <div class="topline">
+        <div class="hero">
+          <img class="avatar" src="avatar_safrutin_pro.png" alt="Максим Сафрутин" />
+
+          <div>
+            <h1 class="name">Максим Сафрутин</h1>
+            <p class="eng">Max Safrutin</p>
+            <p class="role">Менеджер по продажам автомобилей · импорт и подбор под заказ · переговоры · B2B</p>
+
+            <div class="contacts">
+              <span class="chip">Самара, Россия</span>
+              <span class="chip">30.12.1990</span>
+              <span class="chip">Женат · трое детей</span>
+              <span class="chip">+7 (927) 265-17-77</span>
+              <span class="chip">max.safrutin@gmail.com</span>
+            </div>
+
+            <div class="summary">
+              С 1993 года — в переговорах, с 2020 — в автомобильных.
+              Решения принимаю на основе аналитики и цифр.
+              Строю процессы, ведущие к прогнозируемому и масштабируемому результату.
+              Сильная сторона — переводить запрос клиента в понятную сделку через доверие, системность и контроль деталей.
+            </div>
+          </div>
+        </div>
+
+        <div class="qr-wrap">
+          <img class="qr" src="qr_site.png" alt="QR-код на сайт" />
+          <div class="qr-label">Полная версия<br>на сайте</div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="card soft" style="margin-bottom: 11px;">
+        <h2 class="section-title">Ключевые показатели</h2>
+        <div class="metrics">
+          <div class="metric">
+            <div class="metric-value">667+</div>
+            <div class="metric-label">проданных автомобилей</div>
+            <div class="metric-note">за карьеру</div>
+          </div>
+          <div class="metric">
+            <div class="metric-value">424+ млн ₽</div>
+            <div class="metric-label">совокупный оборот</div>
+            <div class="metric-note">по реализованным сделкам</div>
+          </div>
+          <div class="metric">
+            <div class="metric-value">22+ млн ₽</div>
+            <div class="metric-label">валовая прибыль</div>
+            <div class="metric-note">для компаний</div>
+          </div>
+          <div class="metric">
+            <div class="metric-value">1198+</div>
+            <div class="metric-label">положительных отзывов</div>
+            <div class="metric-note">клиенты и аудитория</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-12">
+        <div class="col-8">
+          <div class="card">
+            <h2 class="section-title">Опыт — главное</h2>
+
+            <div class="exp-item">
+              <div class="exp-head">
+                <div class="exp-date">Обозримое будущее</div>
+                <div>
+                  <div class="exp-company">SGM Auto Group</div>
+                  <div class="exp-role">Менеджер по продажам</div>
+                </div>
+              </div>
+              <div class="exp-text">
+                Импорт и продажа юридически чистых автомобилей из Европы, Кореи, ОАЭ, Китая и Канады.
+                Работа под клиента: подбор, выкуп, доставка и выдача автомобиля с полным сопровождением сделки.
+              </div>
+              <div class="mini-result">
+                Фокус: быстро квалифицировать заявку, подобрать автомобиль, довести клиента до предоплаты и выдачи, развивать партнёрский и повторный поток.
+              </div>
+            </div>
+
+            <div class="exp-item">
+              <div class="exp-head">
+                <div class="exp-date">09/2023 — 02/2026</div>
+                <div>
+                  <div class="exp-company">ООО «Урал-Лада» · холдинг АМК</div>
+                  <div class="exp-role">Корпоративный менеджер по работе с юридическими лицами</div>
+                </div>
+              </div>
+              <div class="exp-text">
+                Продажи автомобилей LADA юридическим лицам: поиск и развитие корпоративных клиентов,
+                переговоры с ЛПР, подготовка коммерческих предложений, сопровождение сделок,
+                1С, CRM и электронный документооборот через Диадок.
+              </div>
+              <div class="mini-result">
+                Результат: 630+ автомобилей · 311 млн ₽ оборота · 14 млн ₽ валовой прибыли.
+              </div>
+            </div>
+
+            <div class="exp-item">
+              <div class="exp-head">
+                <div class="exp-date">06/2023 — 09/2023</div>
+                <div>
+                  <div class="exp-company">Новый ДЦ LADA · холдинг АМК</div>
+                  <div class="exp-role">Менеджер отдела продаж новых автомобилей</div>
+                </div>
+              </div>
+              <div class="exp-text">
+                Продажи новых автомобилей и автомобилей с пробегом, тест-драйвы, trade-in,
+                кредитные программы, сопровождение сделок и участие в запуске нового дилерского центра.
+              </div>
+              <div class="mini-result">
+                Результат: участие в запуске салона с нуля, выполнение планов, внедрение более удобного рабочего листа менеджера.
+              </div>
+            </div>
+
+            <div class="exp-item">
+              <div class="exp-head">
+                <div class="exp-date">2008 — н.в.</div>
+                <div>
+                  <div class="exp-company">Фриланс / организация мероприятий / преподавание</div>
+                  <div class="exp-role">Продажи, аудитория, публичная коммуникация, сопровождение клиентов</div>
+                </div>
+              </div>
+              <div class="exp-text">
+                Дополнительный многолетний опыт в работе с людьми, выступлениях, организации процессов,
+                мероприятиях и обучении. Этот блок усилил переговорные навыки, уверенность в коммуникации
+                и умение удерживать внимание аудитории.
+              </div>
+              <div class="mini-result">
+                876+ реализованных проектов · 192+ недель преподавания и работы с аудиторией.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-4">
+          <div class="card soft" style="margin-bottom: 11px;">
+            <h2 class="section-title">Профиль</h2>
+            <div class="tight">
+              <p><span class="label">Специализация:</span> продажи автомобилей, импорт под заказ, B2B, переговоры, сопровождение сделки.</p>
+              <p><span class="label">Подход:</span> системность, скорость реакции, прозрачная коммуникация, контроль этапов, доверие клиента.</p>
+              <p><span class="label">Сильная сторона:</span> перевожу сложный запрос клиента в понятное решение и довожу до результата.</p>
+            </div>
+          </div>
+
+          <div class="card soft" style="margin-bottom: 11px;">
+            <h2 class="section-title">Доп. метрики</h2>
+            <div class="small-kpi">
+              <div class="metric">
+                <div class="metric-value">1340+</div>
+                <div class="metric-label">дней в автобизнесе</div>
+              </div>
+              <div class="metric">
+                <div class="metric-value">12+</div>
+                <div class="metric-label">лет в продажах</div>
+              </div>
+              <div class="metric">
+                <div class="metric-value">876+</div>
+                <div class="metric-label">фриланс-проектов</div>
+              </div>
+              <div class="metric">
+                <div class="metric-value">192+</div>
+                <div class="metric-label">недель преподавания</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card soft">
+            <h2 class="section-title">Ключевые навыки</h2>
+            <div class="skill-list">
+              <span class="tag">Переговоры</span>
+              <span class="tag">B2B-продажи</span>
+              <span class="tag">Импорт авто</span>
+              <span class="tag">CRM</span>
+              <span class="tag">1С</span>
+              <span class="tag">Диадок</span>
+              <span class="tag">Коммерческие предложения</span>
+              <span class="tag">Работа с ЛПР</span>
+              <span class="tag">Подбор авто</span>
+            </div>
+
+            <a class="site-link" href="#" onclick="return false;">Подробнее на сайте</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <div><b>Max Safrutin</b> · Resume / Digital Dossier</div>
+        <div>Страница 1 / 2</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAGE 2 -->
+  <section class="sheet">
+    <div class="sheet-inner">
+      <div class="grid-12">
+        <div class="col-7">
+          <div class="card" style="margin-bottom: 11px;">
+            <h2 class="section-title">Чем полезен компании</h2>
+            <ul class="bullet-list">
+              <li>Быстро выхожу на контакт, квалифицирую запрос и не теряю темп по клиенту.</li>
+              <li>Умею подбирать решение под задачу клиента: бюджет, срок, условия, формат сделки, документы.</li>
+              <li>Спокойно веду переговоры с собственниками, руководителями и лицами, принимающими решения.</li>
+              <li>Держу порядок в CRM и на этапах сделки, не оставляя клиента без контроля и обратной связи.</li>
+              <li>Работаю на повторные обращения, рекомендации и долгосрочное доверие.</li>
+              <li>Использую аналитику, структуру и AI-инструменты, чтобы ускорять подготовку и повышать конверсию.</li>
+            </ul>
+          </div>
+
+          <div class="card" style="margin-bottom: 11px;">
+            <h2 class="section-title">Компетенции и инструменты</h2>
+            <div class="two-col-text">
+              <ul class="bullet-list">
+                <li>CRM и ведение воронки продаж</li>
+                <li>1С и внутренняя операционная дисциплина</li>
+                <li>Подготовка коммерческих предложений</li>
+                <li>Презентация продукта и аргументация ценности</li>
+                <li>Работа с возражениями</li>
+                <li>Безналичные сделки и B2B-документооборот</li>
+              </ul>
+
+              <ul class="bullet-list">
+                <li>Диадок и электронный документооборот</li>
+                <li>Подбор автомобилей под запрос</li>
+                <li>Trade-in, кредитные и смежные процессы</li>
+                <li>Коммуникация в мессенджерах, по телефону и лично</li>
+                <li>Аналитика, отчёты, структурирование данных</li>
+                <li>AI-инструменты для продаж и подготовки материалов</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="card">
+            <h2 class="section-title">Достижения и дополнительный опыт</h2>
+            <ul class="bullet-list">
+              <li>Участник команд «Just Black» и «Sky», серебряный призёр соревнований различного уровня.</li>
+              <li>Судья областных соревнований по фитнес-аэробике.</li>
+              <li>Опыт преподавания, наставничества, работы с группами и публичных выступлений.</li>
+              <li>Сильная коммуникационная база, сформированная не только в продажах, но и в многолетней работе с аудиторией.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-5">
+          <div class="card soft" style="margin-bottom: 11px;">
+            <h2 class="section-title">Личные данные</h2>
+            <div class="tight">
+              <p><span class="label">Дата рождения:</span> 30 декабря 1990</p>
+              <p><span class="label">Семейное положение:</span> женат, трое детей</p>
+              <p><span class="label">Локация:</span> Самара, Россия</p>
+              <p><span class="label">Текущий вектор:</span> продажи автомобилей, импорт, подбор под заказ, развитие клиентской базы и партнёрского канала</p>
+            </div>
+          </div>
+
+          <div class="card soft" style="margin-bottom: 11px;">
+            <h2 class="section-title">Рекомендации</h2>
+            <div class="refs">
+              <div class="ref-box">
+                <div class="ref-name">Анастасия Мовчан</div>
+                <div class="ref-role">Корп. РОП ДЦ «АМК»</div>
+                <div class="ref-text">Самостоятельный, надёжный, уровень руководящей позиции.</div>
+              </div>
+
+              <div class="ref-box">
+                <div class="ref-name">Игорь Уваров</div>
+                <div class="ref-role">Корп. МОП ДЦ «АМК»</div>
+                <div class="ref-text">Сильный B2B-продавец, системный, уверенный в переговорах.</div>
+              </div>
+
+              <div class="ref-box">
+                <div class="ref-name">Владислав Бондаренко</div>
+                <div class="ref-role">Корп. МОП ДЦ «АМ Компани»</div>
+                <div class="ref-text">Лидерский потенциал, честный и открытый в работе.</div>
+              </div>
+
+              <div class="ref-box">
+                <div class="ref-name">Дмитрий Малыгин</div>
+                <div class="ref-role">Корп. МОП ДЦ «АМК Chery»</div>
+                <div class="ref-text">Сильный специалист, спокойный и приятный в общении.</div>
+              </div>
+            </div>
+            <div class="note" style="margin-top: 9px;">
+              Полные рекомендации и расширенные кейсы — в интерактивной версии досье.
+            </div>
+          </div>
+
+          <div class="card soft">
+            <h2 class="section-title">Контакты</h2>
+            <div class="tight">
+              <p><span class="label">Телефон:</span> +7 (927) 265-17-77</p>
+              <p><span class="label">Gmail:</span> max.safrutin@gmail.com</p>
+              <p><span class="label">Yandex:</span> max.safr18@yandex.ru</p>
+              <p><span class="label">WhatsApp:</span> 8 (927) 265-17-77</p>
+              <p><span class="label">Telegram:</span> @Max_Safrutin</p>
+              <p><span class="label">Адрес:</span> Самара, мкр-н Крутые Ключи, ул. Мира</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider" style="margin-top: 12px; margin-bottom: 10px;"></div>
+
+      <div class="card soft">
+        <h2 class="section-title">Позиционирование</h2>
+        <div class="tight">
+          <p>
+            <span class="label">Подход к работе:</span>
+            эффективная продажа строится не только на договорах и регламентах,
+            но прежде всего на живых человеческих отношениях, доверии и точном выполнении договорённостей.
+          </p>
+          <p>
+            <span class="label">Рабочий принцип:</span>
+            сначала понять задачу клиента, затем предложить решение, после чего спокойно и системно довести его до результата.
+          </p>
+          <p>
+            <span class="label">Формат продолжения:</span>
+            краткая версия для печати — здесь, полная версия кейсов, отзывов и деталей — на сайте по QR-коду.
+          </p>
+        </div>
+      </div>
+
+      <div class="footer">
+        <div></div>
+        <div>Страница 2 / 2</div>
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>
